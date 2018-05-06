@@ -52,7 +52,7 @@ vec3 calc_ssao()
     vec3 randomVec = normalize(texture(noisebuffer, fragTexCoord*noisescale).rgb).xyz;
     
     float depth = texture(depthbuffer, fragTexCoord).r;
-    Normal = depthnormal(depth);
+    // Normal = depthnormal(depth);
     
     float radius_depth = 0.5f/depth;
     float occlusion = 0.f;
