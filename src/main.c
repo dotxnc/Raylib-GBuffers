@@ -145,13 +145,15 @@ int main(int argc, char** argv)
     
     // debug
     bool ssao_enabled = true;
+    bool gbuffer_enabled = true;
     
     while (!WindowShouldClose())
     {
         UpdateCamera(&camera);
         SetShaderVector3(lighting, "viewpos", camera.position);
         
-        if (IsKeyPressed(KEY_F)) ssao_enabled = !ssao_enabled;
+        if (IsKeyPressed(KEY_F1)) ssao_enabled = !ssao_enabled;
+        if (IsKeyPressed(KEY_F2)) gbuffer_enabled = !gbuffer_enabled;
         
         BeginDrawing();
             ClearBackground(BLACK);
@@ -186,14 +188,22 @@ int main(int argc, char** argv)
                 DrawTextureFlipped(t.texture);
             EndShaderMode(); EndTextureMode();
             
-            BeginShaderMode(lighting);
-                SetShaderTexture(gbuffer.color, 1);
-                SetShaderTexture(gbuffer.normal, 2);
-                SetShaderTexture(gbuffer.position, 3);
-                if (ssao_enabled) SetShaderTexture(ssao_blurred.texture, 4);
-                else SetShaderTexture(GetTextureDefault(), 4);
-                DrawTextureFlipped(t.texture);
-            EndShaderMode();
+            if (!gbuffer_enabled)
+                DrawTextureFlipped(gbuffer.color);
+            else {
+                BeginShaderMode(lighting);
+                    SetShaderTexture(gbuffer.color, 1);
+                    SetShaderTexture(gbuffer.normal, 2);
+                    SetShaderTexture(gbuffer.position, 3);
+                    if (ssao_enabled) SetShaderTexture(ssao_blurred.texture, 4);
+                    else SetShaderTexture(GetTextureDefault(), 4);
+                    DrawTextureFlipped(t.texture);
+                EndShaderMode();
+            }
+            
+            DrawText("Deferred rendering in raylib.", 10, 10, 20, RED);
+            DrawText(FormatText("F1 = Toggle SSAO = %s", ssao_enabled ? "ON" : "OFF"), 10, 35, 20, GREEN);
+            DrawText(FormatText("F2 = Toggle GBuffers = %s", gbuffer_enabled ? "ON" : "OFF"), 10, 60, 20, GREEN);
         
         EndDrawing();
     }
