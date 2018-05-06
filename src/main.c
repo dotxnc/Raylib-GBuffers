@@ -160,8 +160,8 @@ int main(int argc, char** argv)
             
             SetShaderVector3(lighting, "lights[0].position", (Vector3){0, 3+cos(GetTime()), 1.5});
             SetShaderVector3(lighting, "lights[1].position", (Vector3){1, 3, cos(GetTime())});
-            SetShaderVector3(lighting, "lights[2].position", (Vector3){-1, 3, cos(GetTime())*-1});
-            SetShaderVector3(lighting, "lights[3].position", (Vector3){sin(GetTime())*-2, 0.5, cos(GetTime())*-2});
+            SetShaderVector3(lighting, "lights[2].position", (Vector3){-1, 3, -cos(GetTime())});
+            SetShaderVector3(lighting, "lights[3].position", (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2});
             
             gbuffer_begin(&gbuffer);
                 Begin3dMode(camera);
@@ -170,8 +170,8 @@ int main(int argc, char** argv)
                     DrawModel(bunny, (Vector3){0, 2.75, 1}, 1.f, WHITE);
                     DrawModel(light, (Vector3){0, 3+cos(GetTime()), 1.5}, 0.1, BLUE);
                     DrawModel(light, (Vector3){1, 3, cos(GetTime())}, 0.1, BLUE);
-                    DrawModel(light, (Vector3){-1, 3, cos(GetTime())*-1}, 0.1, BLUE);
-                    DrawModel(light, (Vector3){sin(GetTime())*-2, 0.5, cos(GetTime())*-2}, 0.1, BLUE);
+                    DrawModel(light, (Vector3){-1, 3, -cos(GetTime())}, 0.1, BLUE);
+                    DrawModel(light, (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2}, 0.1, BLUE);
                     DrawModel(ground, Vector3Zero(), 1.f, WHITE);
                 End3dMode();
             gbuffer_end();
@@ -188,9 +188,7 @@ int main(int argc, char** argv)
                 DrawTextureFlipped(t.texture);
             EndShaderMode(); EndTextureMode();
             
-            if (!gbuffer_enabled)
-                DrawTextureFlipped(gbuffer.color);
-            else {
+            if (gbuffer_enabled) {
                 BeginShaderMode(lighting);
                     SetShaderTexture(gbuffer.color, 1);
                     SetShaderTexture(gbuffer.normal, 2);
@@ -199,6 +197,9 @@ int main(int argc, char** argv)
                     else SetShaderTexture(GetTextureDefault(), 4);
                     DrawTextureFlipped(t.texture);
                 EndShaderMode();
+            }
+            else {
+                DrawTextureFlipped(gbuffer.color);
             }
             
             DrawText("Deferred rendering in raylib.", 10, 10, 20, RED);
@@ -210,6 +211,17 @@ int main(int argc, char** argv)
     
     UnloadModel(model);
     UnloadModel(screen);
+    UnloadModel(teapot);
+    UnloadModel(bunny);
+    UnloadModel(ground);
+    UnloadModel(light);
+    UnloadShader(gbuffer_shader);
+    UnloadShader(ssao);
+    UnloadShader(blur);
+    UnloadShader(lighting);
+    UnloadRenderTexture(t);
+    UnloadRenderTexture(ssao_buffer);
+    UnloadRenderTexture(ssao_blurred);
     gbuffer_free(&gbuffer);
     CloseWindow();
     
