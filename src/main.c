@@ -73,8 +73,8 @@ int main(int argc, char** argv)
     Model screen = LoadModel("assets/models/Arcade2_screen.obj");
     SetModelShader(&screen, gbuffer_shader);
     SetModelMap(&screen, MAP_DIFFUSE, LoadTexture("assets/textures/crt.png"));
-    SetModelMap(&screen, MAP_SPECULAR, LoadTexture("assets/textures/scratchmap.png"));
-    SetModelMap(&screen, MAP_NORMAL, LoadTexture("assets/textures/crt_normal.png"));
+    SetModelMap(&screen, MAP_SPECULAR, GetTextureDefault());
+    SetModelMap(&screen, MAP_NORMAL, GetTextureDefault());
     
     Model teapot = LoadModel("assets/models/utah-teapot.obj");
     SetModelShader(&teapot, gbuffer_shader);
