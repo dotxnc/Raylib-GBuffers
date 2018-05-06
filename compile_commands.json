@@ -1,0 +1,34 @@
+[
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-o",
+            "obj/gbuffer.o",
+            "--std=c11",
+            "-Wno-incompatible-pointer-types",
+            "-Wno-int-conversion",
+            "-Wno-unused-value",
+            "-Isrc/",
+            "src\\gbuffer.c"
+        ],
+        "directory": "C:\\Users\\patri\\Desktop\\Projects\\GBuffer_Raylib",
+        "file": "src\\gbuffer.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-o",
+            "obj/main.o",
+            "--std=c11",
+            "-Wno-incompatible-pointer-types",
+            "-Wno-int-conversion",
+            "-Wno-unused-value",
+            "-Isrc/",
+            "src\\main.c"
+        ],
+        "directory": "C:\\Users\\patri\\Desktop\\Projects\\GBuffer_Raylib",
+        "file": "src\\main.c"
+    }
+]
