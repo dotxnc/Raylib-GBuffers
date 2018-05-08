@@ -67,7 +67,7 @@ void SetShaderInt(Shader s, const char*n, int i)
 
 void DrawTextureFlipped(Texture2D t)
 {
-    DrawTextureRec(t, (Rectangle){0, 0, t.width, -t.height}, (Vector2){0,0}, WHITE);
+    DrawTexturePro(t, (Rectangle){0, 0, t.width, -t.height}, (Rectangle){0, 0, t.width, t.height}, Vector2Zero(), 0.f, WHITE);
 }
 
 #endif

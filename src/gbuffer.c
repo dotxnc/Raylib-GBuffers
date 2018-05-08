@@ -32,12 +32,6 @@ void gbuffer_init(gbuffer_t* gbuffer, int width, int height)
     gbuffer->position.format = UNCOMPRESSED_R8G8B8A8;
     gbuffer->position.mipmaps = 0;
     
-    gbuffer->emission.id = 0;
-    gbuffer->emission.width = width;
-    gbuffer->emission.height = height;
-    gbuffer->emission.format = UNCOMPRESSED_R8G8B8A8;
-    gbuffer->emission.mipmaps = 0;
-    
     glGenFramebuffers(1, &gbuffer->id);
     glBindFramebuffer(GL_FRAMEBUFFER, gbuffer->id);
     

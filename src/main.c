@@ -42,9 +42,11 @@ int main(int argc, char** argv)
     SetTargetFPS(60);
     SetExitKey(KEY_F12);
     
-    Camera camera = {{0, 3.5, 3}, {0, 2.5, 0}, {0, 1, 0}, 90.f, CAMERA_PERSPECTIVE};
+    
+    Camera camera = {{0, 3.5, 3}, {0, 3, 0}, {0, 1, 0}, 90.f, CAMERA_PERSPECTIVE};
     SetCameraMode(camera, CAMERA_FIRST_PERSON);
     
+    SetMousePosition(Vector2Zero());
     // load shaders
     Shader gbuffer_shader = LoadShader("assets/shaders/gbuffer.vs", "assets/shaders/gbuffer.fs");
     gbuffer_shader.locs[LOC_MATRIX_MODEL] = GetShaderLocation(gbuffer_shader, "modelMatrix");
@@ -102,7 +104,7 @@ int main(int argc, char** argv)
     SetModelMap(&light, MAP_NORMAL, GetTextureDefault());
     
     // set light uniforms
-    SetShaderVector3(lighting, "lights[0].position", (Vector3){1, 3, 0});
+    SetShaderVector3(lighting, "lights[0].position", (Vector3){0, 3, 1.5});
     SetShaderVector3(lighting, "lights[0].color",    (Vector3){0, 1, 1});
     SetShaderFloat(lighting, "lights[0].linear",   0.7);
     SetShaderFloat(lighting, "lights[0].quadratic",1.8);
@@ -158,22 +160,22 @@ int main(int argc, char** argv)
         BeginDrawing();
             ClearBackground(BLACK);
             
-            SetShaderVector3(lighting, "lights[0].position", (Vector3){0, 3+cos(GetTime()), 1.5});
-            SetShaderVector3(lighting, "lights[1].position", (Vector3){1, 3, cos(GetTime())});
-            SetShaderVector3(lighting, "lights[2].position", (Vector3){-1, 3, -cos(GetTime())});
-            SetShaderVector3(lighting, "lights[3].position", (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2});
+            // SetShaderVector3(lighting, "lights[0].position", (Vector3){0, 3+cos(GetTime()), 1.5});
+            // SetShaderVector3(lighting, "lights[1].position", (Vector3){1, 3, cos(GetTime())});
+            // SetShaderVector3(lighting, "lights[2].position", (Vector3){-1, 3, -cos(GetTime())});
+            // SetShaderVector3(lighting, "lights[3].position", (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2});
             
             gbuffer_begin(&gbuffer);
-                Begin3dMode(camera);
+                BeginMode3D(camera);;
                     DrawModel(model, Vector3Zero(), 1.f, WHITE);
                     DrawModel(screen, Vector3Zero(), 1.f, WHITE);
                     DrawModel(bunny, (Vector3){0, 2.75, 1}, 1.f, WHITE);
-                    DrawModel(light, (Vector3){0, 3+cos(GetTime()), 1.5}, 0.1, BLUE);
-                    DrawModel(light, (Vector3){1, 3, cos(GetTime())}, 0.1, BLUE);
-                    DrawModel(light, (Vector3){-1, 3, -cos(GetTime())}, 0.1, BLUE);
-                    DrawModel(light, (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2}, 0.1, BLUE);
+                    // DrawModel(light, (Vector3){0, 3+cos(GetTime()), 1.5}, 0.1, BLUE);
+                    // DrawModel(light, (Vector3){1, 3, cos(GetTime())}, 0.1, BLUE);
+                    // DrawModel(light, (Vector3){-1, 3, -cos(GetTime())}, 0.1, BLUE);
+                    // DrawModel(light, (Vector3){-sin(GetTime())*2, 0.5, -cos(GetTime())*2}, 0.1, BLUE);
                     DrawModel(ground, Vector3Zero(), 1.f, WHITE);
-                End3dMode();
+                EndMode3D();
             gbuffer_end();
             
             BeginTextureMode(ssao_buffer); BeginShaderMode(ssao);

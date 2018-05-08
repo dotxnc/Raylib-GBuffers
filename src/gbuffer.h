@@ -16,7 +16,6 @@ typedef struct gbuffer_t {
     Texture2D color;
     Texture2D normal;
     Texture2D position;
-    Texture2D emission;
     Texture2D depth;
 } gbuffer_t;
 
